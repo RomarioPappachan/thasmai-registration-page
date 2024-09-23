@@ -14,9 +14,9 @@ const router = createBrowserRouter(
     <Route path='/' element={<StrictMode><App /></StrictMode>}>
       <Route index element={<HomePage />} />
       <Route path='/:id' element={<HomePage />} />
-      <Route path='/register' element={<RegistrationPage />} />
-      <Route path='/registrationSuccess' element={<SuccessPage />} />
-      <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
+      <Route path='/web-test/register' element={<RegistrationPage />} />
+      <Route path='/web-test/registrationSuccess' element={<SuccessPage />} />
+      <Route path='/web-test/privacyPolicy' element={<PrivacyPolicy />} />
 
     </Route>
   )

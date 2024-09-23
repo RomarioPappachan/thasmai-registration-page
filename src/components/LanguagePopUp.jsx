@@ -100,7 +100,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("English");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "English");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#BA1A1A] to-[#540c0c] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">
@@ -115,7 +115,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("Kannada");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "Kannada");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#4584DD] to-[#254777] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">
@@ -130,7 +130,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("Malayalam");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "Malayalam");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#B2C649] to-[#566023] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">
@@ -145,7 +145,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("Hindi");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "Hindi");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#F8AD2B] to-[#926619] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">
@@ -160,7 +160,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("Telugu");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "Telugu");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#B583C2] to-[#563E5C] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">
@@ -175,7 +175,7 @@ function LanguagePopUp() {
             setSelectedAudioLanguage("Tamil");
             localStorage.removeItem("selectedLanguage");
             localStorage.setItem("selectedLanguage", "Tamil");
-            window.location.href = "/register";
+            window.location.href = "/web-test/register";
           }}>
             <div className="w-28 h-28 rounded-full bg-gradient-to-b from-[#815600] to-[#1B1200] flex justify-center items-center">
               <div className="size-24 rounded-full bg-white flex justify-center items-center hover:bg-slate-200">

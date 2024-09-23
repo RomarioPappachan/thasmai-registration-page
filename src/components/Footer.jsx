@@ -78,22 +78,22 @@ function Footer() {
     
     <div className="w-full grid grid-cols-4 px-2 md:px-10 lg:px-20 py-6 gap-4 text-center">
     <div className="flex flex-col justify-center items-center">
-      <img src="/total-meditators.svg" alt="Total" className='w-10' title='Total Meditators' />
+      <img src="/web-test/total-meditators.svg" alt="Total" className='w-10' title='Total Meditators' />
       <p className='font-bold text-base' title='Total Meditators'>{ totalmeditatorscount }</p>
       {/* <p>Total</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/waiting-list.svg" alt="Total" className='w-10' title='Waiting List'/>
+      <img src="/web-test/waiting-list.svg" alt="Total" className='w-10' title='Waiting List'/>
       <p className='font-bold text-base' title='Waiting List'>{ waitinglistcount }</p>
       {/* <p>Waiting</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/beneficiaries.svg" alt="Total" className='w-10' title='Beneficiaries' />
+      <img src="/web-test/beneficiaries.svg" alt="Total" className='w-10' title='Beneficiaries' />
       <p className='font-bold text-base' title='Beneficiaries'>{ beneficiariescount }</p>
       {/* <p>Beneficiaries</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/new-joinees.svg" alt="Total" className='w-10' title='New Joinees' />
+      <img src="/web-test/new-joinees.svg" alt="Total" className='w-10' title='New Joinees' />
       <p className='font-bold text-base' title='New Joinees'>{ newjoineescount }</p>
       {/* <p>New</p> */}
     </div>

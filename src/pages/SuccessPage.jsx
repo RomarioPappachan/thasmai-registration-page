@@ -65,7 +65,7 @@ function SuccessPage(props) {
     <div className="success-page-bg w-screen h-screen poppins-font relative overflow-y-auto">
       {/* Logo Section */}
       <div className="w-full px-6 py-3 md:px-10 md:py-5">
-        <img src="/starlife-logo.png" alt="Starlife Logo" className="w-[30%] md:w-[20%] lg:w-[13%]" />
+        <img src="/web-test/starlife-logo.png" alt="Starlife Logo" className="w-[30%] md:w-[20%] lg:w-[13%]" />
       </div>
 
       {/* Welcome Text Section */}
@@ -89,7 +89,7 @@ function SuccessPage(props) {
           Please send a hi to
           <a href="https://wa.me/+919008290027" className="px-1 md:px-2">
             <img 
-              src="/whatsapp-ripple.gif" 
+              src="/web-test/whatsapp-ripple.gif" 
               className="w-6 md:w-8 inline-block rounded-full"
               alt="whatsapp ripple" 
             />
@@ -112,13 +112,13 @@ function SuccessPage(props) {
       <div >
           <p className="text-center">Download our mobile app</p>
           <div className='mt-2 flex justify-center items-center'>
-            <img src="/play-store.png" alt="Play Store Icon" className="w-24 md:w-28 lg:w-36" />
-            <img src="/apple-store.png" alt="Apple Store Icon" className="w-24 md:w-28 lg:w-36" />
+            <img src="/web-test/play-store.png" alt="Play Store Icon" className="w-24 md:w-28 lg:w-36" />
+            <img src="/web-test/apple-store.png" alt="Apple Store Icon" className="w-24 md:w-28 lg:w-36" />
           </div>
       </div>
 
       {/* Footer Section */}
-      <div className='w-full'>
+      <div className='w-full fixed bottom-0 left-0 pt-6'>
         <Footer/>
       </div> 
 
