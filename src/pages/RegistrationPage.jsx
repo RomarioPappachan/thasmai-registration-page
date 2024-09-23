@@ -589,16 +589,16 @@ import SuccessCard from "../components/SuccessCard";
 const schema = yup.object({
   firstName: yup
     .string()
-    .required("First name is required")
+    .required("First name is empty")
     .matches(/^[A-Za-z. ]+$/, "Name must not contain special characters."),
   secondName: yup
     .string()
-    .required("Last name is required")
+    .required("Last name is empty")
     .matches(/^[A-Za-z. ]+$/, "Name must not contain special characters."),
   email: yup
     .string()
-    .required("Email is required")
-    .email("Email is not valid"),
+    .required("Email is empty")
+    .email("Enter a valid email"),
   phone: yup
     .string()
     .required("Phone number is required")
@@ -618,6 +618,7 @@ function RegistrationPage() {
   const defaultCountryId = 151;
   // const countryRef = useRef("");
   const [isTextAreaExpanded, setIsTextAreaExpanded] = useState(false);
+  const [specialRemarkCount, setSpecialRemarkCount] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [loading, setLoading] = useState(true);
   const [countries, setCountries] = useState([]);
@@ -647,8 +648,29 @@ function RegistrationPage() {
 
   const [successPageData, setSuccessPageData] = useState({});
 
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // This line is required for some browsers to show the default dialog
+      return "You have pressed the back button"; // Optional custom message (not always displayed)
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  });
+
+
+
   function handleNonValidatedData(e) {
     const { name, value } = e.target;
+    if(name === "specialRemarks") {
+      setSpecialRemarkCount(value.length);
+    }
     setNonValidatedData((prevValue) => {
       return {
         ...prevValue,
@@ -779,11 +801,11 @@ function RegistrationPage() {
                 type="text"
                 {...register("firstName")}
                 placeholder="First name"
-                className="bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold"
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.firstName && 'border-2 border-red-500'}`}
               />
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
               {errors.firstName && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.firstName.message}
                 </span>
               )}
@@ -793,11 +815,11 @@ function RegistrationPage() {
                 type="text"
                 {...register("secondName")}
                 placeholder="Last name"
-                className="bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold"
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.secondName && 'border-2 border-red-500'}`}
               />
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
               {errors.secondName && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.secondName.message}
                 </span>
               )}
@@ -807,11 +829,11 @@ function RegistrationPage() {
                 type="email"
                 {...register("email")}
                 placeholder="Email"
-                className="bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold"
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.email && 'border-2 border-red-500'}`}
               />
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
               {errors.email && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.email.message}
                 </span>
               )}
@@ -848,7 +870,7 @@ function RegistrationPage() {
               </select>
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
               {errors.country && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.country.message}
                 </span>
               )}
@@ -861,7 +883,7 @@ function RegistrationPage() {
                 <div className="w-1/4 h-full flex justify-center items-center rounded-l-lg text-lg border-r-2 border-gray-100">{selectedCountryPhonecode}</div>
                 <div className="w-3/4 h-full flex justify-center items-center rounded-r-lg relative">
                   <input
-                    className="w-full h-full ps-4 outline-none rounded-r-lg text-lg placeholder:text-black placeholder:font-semibold"
+                    className={`w-full h-full ps-4 outline-none rounded-r-lg text-lg placeholder:text-black placeholder:font-semibold ${errors.phone && "border-2 border-red-500"}`}
                     type="tel"
                     {...register("phone")}
                     placeholder="Mobile no."
@@ -869,7 +891,7 @@ function RegistrationPage() {
                   <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
                 </div>
                 {errors.phone && (
-                  <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                  <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                     {errors.phone.message}
                   </span>
                 )}
@@ -899,7 +921,7 @@ function RegistrationPage() {
             <div className="h-12 relative rounded-lg form-input-drop-shadow">
               <select
                 {...register("selectedLanguages")}
-                className="w-full h-full bg-white text-lg text-black font-semibold rounded-lg px-4 outline-none"
+                className={`w-full h-full bg-white text-lg text-black font-semibold rounded-lg px-4 outline-none ${errors.selectedLanguages && "border-2 border-red-500"}`}
               >
                 <option value="" selected disabled>Preferred Language for online zoom class</option>
                 <option value="English">English</option>
@@ -911,7 +933,7 @@ function RegistrationPage() {
               </select>
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
               {errors.selectedLanguages && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.selectedLanguages.message}
                 </span>
               )}
@@ -925,16 +947,17 @@ function RegistrationPage() {
                 className="w-full h-full px-4 p-2 text-lg rounded-lg bg-white text-black  outline-none placeholder:text-black placeholder:font-semibold"
                 rows={isTextAreaExpanded ? 4 : 1}
                 onClick={() => {setIsTextAreaExpanded(true)}}
+                onBlur={() => {setIsTextAreaExpanded(false)}}
                 maxLength={500}
                 onChange={ handleNonValidatedData }
               >
 
               </textarea>
-              <span className="w-full absolute -bottom-5 left-0 h-6 text-[#2f3542] font-semibold text-sm text-right">
-                 0/500
+              <span className="w-full absolute -bottom-6 left-0 h-7 text-[#2f3542] bg-[hsla(360,100%,100%,0.25)] font-semibold text-sm text-right rounded-sm backdrop-blur-sm">
+                 {specialRemarkCount}/500
               </span>
             </div>
-            <span className="w-full p-2 bg-[hsla(0,0%,100%,0.752)] sm:col-span-2 rounded-md form-input-drop-shadow flex items-center gap-2">
+            <span className={`w-full p-2 bg-[hsla(0,0%,100%,0.752)] sm:col-span-2 rounded-md form-input-drop-shadow flex items-center gap-2 ${errors.privacyCheck && "border-2 border-red-500"}`}>
               <input type="checkbox"   {...register("privacyCheck")} className="size-5" />
               <span className="text-base text-black text-left">
                 I have read and agreed to Thasmai Starlife's{" "}
@@ -942,11 +965,11 @@ function RegistrationPage() {
                   Privacy Policy
                 </a>
               </span>
-              {errors.privacyCheck && (
-                <span className="w-full absolute -bottom-5 left-0 h-6 text-red-600 text-sm text-left">
+              {/* {errors.privacyCheck && (
+                <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.privacyCheck.message}
                 </span>
-              )}
+              )} */}
             </span>
             <div className="h-12 sm:col-span-2">
               <button
