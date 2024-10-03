@@ -21,17 +21,12 @@ const schema = yup.object({
     .string()
     .required("Last name is empty")
     .matches(/^[A-Za-z. ]+$/, "Name must not contain special characters."),
-  email: yup
-    .string()
-    .required("Email is empty")
-    .email("Enter a valid email"),
+  email: yup.string().required("Email is empty").email("Enter a valid email"),
   phone: yup
     .string()
     .required("Phone number is required")
     .matches(/^\d{7,13}$/, "Phone number must be between 7 and 13 digits."),
-  selectedLanguages: yup
-    .string()
-    .required("Preferred language is required"),
+  selectedLanguages: yup.string().required("Preferred language is required"),
   privacyCheck: yup
     .boolean()
     .oneOf([true], "You must accept the privacy policy")
@@ -39,10 +34,10 @@ const schema = yup.object({
 });
 
 function RegistrationPage() {
-
   const [referralId, setReferralId] = useState("");
   const defaultCountryId = 151;
   // const countryRef = useRef("");
+  const [isSelectTagSelected, setIsSelectTagSelected] = useState(false);
   const [isTextAreaExpanded, setIsTextAreaExpanded] = useState(false);
   const [specialRemarkCount, setSpecialRemarkCount] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState("");
@@ -57,23 +52,24 @@ function RegistrationPage() {
     gender: "",
     reference: "",
     specialRemarks: "",
-  })
+  });
   const [completeData, setCompleteData] = useState({});
   const [userEmailToSend, setUserEmailToSend] = useState("");
 
-  // popup states 
+  // popup states
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isUserStatusOpen, setIsUserStatusOpen] = useState(false);
   const [isOtpOpen, setIsOtpOpen] = useState(false);
   const [isSuccessCardOpen, setIsSuccessCardOpen] = useState(false);
 
-  const[userStatusErrorMessage, setUserStatusErrorMessage] = useState({
-    flag : "",
-    message : "",
+  const [userStatusErrorMessage, setUserStatusErrorMessage] = useState({
+    flag: "",
+    message: "",
   });
 
   const [successPageData, setSuccessPageData] = useState({});
 
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -82,74 +78,85 @@ function RegistrationPage() {
       return "You have pressed the back button"; // Optional custom message (not always displayed)
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    if (!success) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
 
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (!success) {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      }
     };
   });
 
-
-
   function handleNonValidatedData(e) {
     const { name, value } = e.target;
-    if(name === "specialRemarks") {
+    if (name === "specialRemarks") {
       setSpecialRemarkCount(value.length);
     }
     setNonValidatedData((prevValue) => {
       return {
         ...prevValue,
-        [name] : value
-      }
-    })
+        [name]: value,
+      };
+    });
   }
 
   function handleDateOfBirth(value) {
     setNonValidatedData((prevValue) => {
       return {
         ...prevValue,
-        dob : value
-      }
-    })
+        dob: value,
+      };
+    });
   }
 
-  
-
   // Initialize react-hook-form
-  const { control, handleSubmit, register, formState: { errors }, setValue } = useForm({
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(data);
-    const {firstName, secondName, email, country, phone, selectedLanguages, privacyCheck } = data;
+    const {
+      firstName,
+      secondName,
+      email,
+      country,
+      phone,
+      selectedLanguages,
+      privacyCheck,
+    } = data;
 
     setUserEmailToSend(email); //to send email at the time of success card loading
 
-    // Merge validated DataTransfer, non validated datas and referral Id 
+    // Merge validated DataTransfer, non validated datas and referral Id
     const mergedData = {
-      firstName : firstName,
+      firstName: firstName,
       secondName: secondName,
-      email : email,
-      phone : phone,
-      languages : selectedLanguages, // store in an array
-      country : selectedCountryName,
+      email: email,
+      phone: phone,
+      languages: selectedLanguages, // store in an array
+      country: selectedCountryName,
       // country_code : selectedCountryPhonecode,
       ...nonValidatedData,
-      ref_id : referralId
-    }
+      ref_id: referralId,
+    };
     console.log(mergedData);
 
     setCompleteData(mergedData); //Merged data
 
-    if(mergedData) {
+    if (mergedData) {
       setIsConfirmationOpen(true);
     }
   };
-
-
-
 
   useEffect(() => {
     try {
@@ -157,7 +164,6 @@ function RegistrationPage() {
       setSelectedLanguage(localStorage.getItem("selectedLanguage"));
       setReferralId(refId);
       console.log("Referral Id", refId, selectedLanguage);
-      
     } catch (error) {
       console.log(error);
     }
@@ -217,7 +223,10 @@ function RegistrationPage() {
         <div className="w-full relative top-0 left-0">
           <AudioPlay />
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="py-5 px-1 background-mountain overflow-y-auto">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="py-5 px-1 background-mountain overflow-y-auto"
+        >
           <h1 className="text-center text-2xl font-semibold">
             Satyam vada | Dharmam chara
           </h1>
@@ -227,9 +236,13 @@ function RegistrationPage() {
                 type="text"
                 {...register("firstName")}
                 placeholder="First name"
-                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.firstName && 'border-2 border-red-500'}`}
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-gray-400 placeholder:font-normal ${
+                  errors.firstName && "border-2 border-red-500"
+                }`}
               />
-              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                *
+              </span>
               {errors.firstName && (
                 <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.firstName.message}
@@ -241,9 +254,13 @@ function RegistrationPage() {
                 type="text"
                 {...register("secondName")}
                 placeholder="Last name"
-                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.secondName && 'border-2 border-red-500'}`}
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-gray-400 placeholder:font-normal ${
+                  errors.secondName && "border-2 border-red-500"
+                }`}
               />
-              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                *
+              </span>
               {errors.secondName && (
                 <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.secondName.message}
@@ -255,9 +272,13 @@ function RegistrationPage() {
                 type="email"
                 {...register("email")}
                 placeholder="Email"
-                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-black placeholder:font-semibold ${errors.email && 'border-2 border-red-500'}`}
+                className={`bg-white w-full h-full px-4 text-lg rounded-lg outline-none placeholder:text-gray-400 placeholder:font-normal ${
+                  errors.email && "border-2 border-red-500"
+                }`}
               />
-              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                *
+              </span>
               {errors.email && (
                 <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.email.message}
@@ -271,11 +292,21 @@ function RegistrationPage() {
               <div className="w-1/4 flex">
                 <div className="w-1/2 flex flex-col justify-center items-center gap-y-1">
                   <img src="/web-test/male.png" alt="" className="w-8" />
-                  <input type="radio" name="gender" value="male" onChange={handleNonValidatedData} />
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    onChange={handleNonValidatedData}
+                  />
                 </div>
                 <div className="w-1/2 flex flex-col justify-center items-center gap-y-1">
                   <img src="/web-test/female.png" alt="" className="w-8" />
-                  <input type="radio" name="gender" value="female" onChange={handleNonValidatedData} />
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    onChange={handleNonValidatedData}
+                  />
                 </div>
               </div>
             </div>
@@ -283,18 +314,22 @@ function RegistrationPage() {
               <select
                 {...register("country")}
                 onChange={handleCountryChange}
-                className="w-full h-full bg-white text-lg text-black font-semibold rounded-lg px-4 outline-none"
+                className="w-full h-full bg-white text-lg text-black font-normal rounded-lg px-4 outline-none"
                 // ref={countryRef}
                 value={selectedCountryId}
               >
-                <option value="" disabled>{ loading ? "Loading countries" : "Select a country"}</option>
-                {
-                  countries.map((country) => (
-                    <option key={country.id} value={country.id}>{country.name}</option>
-                  ))
-                }
+                <option value="" disabled>
+                  {loading ? "Loading countries" : "Select a country"}
+                </option>
+                {countries.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
-              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                *
+              </span>
               {errors.country && (
                 <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.country.message}
@@ -303,18 +338,28 @@ function RegistrationPage() {
             </div>
             <div className="h-12 relative rounded-lg flex justify-center items-center gap-x-6">
               <div className="w-[20%] h-full flex justify-center items-center bg-white rounded-lg form-input-drop-shadow">
-                <img src={selectedCountryFlag} alt="" className="w-10 border-[0.5px] border-[#d9d9e3]" />
+                <img
+                  src={selectedCountryFlag}
+                  alt=""
+                  className="w-10 border-[0.5px] border-[#d9d9e3]"
+                />
               </div>
               <div className="w-[80%] h-full flex justify-center items-center rounded-lg bg-white form-input-drop-shadow relative">
-                <div className="w-1/4 h-full flex justify-center items-center rounded-l-lg text-lg border-r-2 border-gray-100">{selectedCountryPhonecode}</div>
+                <div className="w-1/4 h-full flex justify-center items-center rounded-l-lg text-lg border-r-2 border-gray-100">
+                  {selectedCountryPhonecode}
+                </div>
                 <div className="w-3/4 h-full flex justify-center items-center rounded-r-lg relative">
                   <input
-                    className={`w-full h-full ps-4 outline-none rounded-r-lg text-lg placeholder:text-black placeholder:font-semibold ${errors.phone && "border-2 border-red-500"}`}
+                    className={`w-full h-full ps-4 outline-none rounded-r-lg text-lg placeholder:text-gray-400 placeholder:font-normal ${
+                      errors.phone && "border-2 border-red-500"
+                    }`}
                     type="tel"
                     {...register("phone")}
                     placeholder="Mobile no."
                   />
-                  <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+                  <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                    *
+                  </span>
                 </div>
                 {errors.phone && (
                   <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
@@ -324,40 +369,73 @@ function RegistrationPage() {
               </div>
             </div>
             <div className="h-12 relative rounded-lg bg-white form-input-drop-shadow flex justify-around items-center gap-1">
-                <div className="h-full flex justify-center items-center">
-                  <img src="/web-test/magnifier.svg" alt="" className="size-6" />
-                </div>
-                <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
-                  Social media
-                  <input type="radio" name="reference" value="social_media" id="" onChange={handleNonValidatedData} />
-                </div>
-                <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
-                  Reference
-                  <input type="radio" name="reference" value="reference" id="" onChange={handleNonValidatedData} />
-                </div>
-                <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
-                  News
-                  <input type="radio" name="reference" value="news" id="" onChange={handleNonValidatedData} />
-                </div>
-                <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
-                  Others
-                  <input type="radio" name="reference" value="others" id="" onChange={handleNonValidatedData} />
-                </div>
+              <div className="h-full flex justify-center items-center">
+                <img src="/web-test/magnifier.svg" alt="" className="size-6" />
+              </div>
+              <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
+                Social media
+                <input
+                  type="radio"
+                  name="reference"
+                  value="social_media"
+                  id=""
+                  onChange={handleNonValidatedData}
+                />
+              </div>
+              <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
+                Reference
+                <input
+                  type="radio"
+                  name="reference"
+                  value="reference"
+                  id=""
+                  onChange={handleNonValidatedData}
+                />
+              </div>
+              <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
+                News
+                <input
+                  type="radio"
+                  name="reference"
+                  value="news"
+                  id=""
+                  onChange={handleNonValidatedData}
+                />
+              </div>
+              <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
+                Others
+                <input
+                  type="radio"
+                  name="reference"
+                  value="others"
+                  id=""
+                  onChange={handleNonValidatedData}
+                />
+              </div>
             </div>
             <div className="h-12 relative rounded-lg form-input-drop-shadow">
               <select
-                {...register("selectedLanguages")}
-                className={`w-full h-full bg-white text-lg text-black font-semibold rounded-lg px-4 outline-none ${errors.selectedLanguages && "border-2 border-red-500"}`}
+                {...register("selectedLanguages", {
+                  onChange: (e) =>
+                    setIsSelectTagSelected(e.target.value !== ""), // Mark as selected when a non-empty value is chosen
+                })}
+                className={`w-full h-full bg-white text-lg font-normal rounded-lg px-4 outline-none 
+                    ${isSelectTagSelected ? "text-black" : "text-gray-400"} 
+                    ${errors.selectedLanguages ? "border-2 border-red-500" : ""}`}
               >
-                <option value="" selected disabled>Preferred Language for online zoom class</option>
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Kannada">Kannada</option>
-                <option value="Malayalam">Malayalam</option>
-                <option value="Tamil">Tamil</option>
-                <option value="Telugu">Telugu</option>
+                <option value="" selected disabled className={`${isSelectTagSelected ? 'text-black' : 'text-gray-400'}`}>
+                  Preferred Language for online zoom class
+                </option>
+                <option className="text-black" value="English">English</option>
+                <option className="text-black" value="Hindi">Hindi</option>
+                <option className="text-black" value="Kannada">Kannada</option>
+                <option className="text-black" value="Malayalam">Malayalam</option>
+                <option className="text-black" value="Tamil">Tamil</option>
+                <option className="text-black" value="Telugu">Telugu</option>
               </select>
-              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">*</span>
+              <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
+                *
+              </span>
               {errors.selectedLanguages && (
                 <span className="w-full absolute -bottom-6 left-0 h-6 text-red-600 text-sm text-left font-semibold bg-[hsla(360,100%,100%,0.25)] rounded-sm backdrop-blur-sm">
                   {errors.selectedLanguages.message}
@@ -365,29 +443,43 @@ function RegistrationPage() {
               )}
             </div>
             <div className="min-h-12 sm:col-span-2 bg-white rounded-lg form-input-drop-shadow relative">
-              <textarea 
+              <textarea
                 name="specialRemarks"
-                value={ nonValidatedData.specialRemarks }
+                value={nonValidatedData.specialRemarks}
                 id=""
                 placeholder="Special remarks"
-                className="w-full h-full px-4 p-2 text-lg rounded-lg bg-white text-black  outline-none placeholder:text-black placeholder:font-semibold"
+                className="w-full h-full px-4 p-2 text-lg rounded-lg bg-white text-black  outline-none placeholder:text-gray-400 placeholder:font-normal"
                 rows={isTextAreaExpanded ? 4 : 1}
-                onClick={() => {setIsTextAreaExpanded(true)}}
-                onBlur={() => {setIsTextAreaExpanded(false)}}
+                onClick={() => {
+                  setIsTextAreaExpanded(true);
+                }}
+                onBlur={() => {
+                  setIsTextAreaExpanded(false);
+                }}
                 maxLength={500}
-                onChange={ handleNonValidatedData }
-              >
-
-              </textarea>
+                onChange={handleNonValidatedData}
+              ></textarea>
               <span className="w-full absolute -bottom-6 left-0 h-7 text-[#2f3542] bg-[hsla(360,100%,100%,0.25)] font-semibold text-sm text-right rounded-sm backdrop-blur-sm">
-                 {specialRemarkCount}/500
+                {specialRemarkCount}/500
               </span>
             </div>
-            <span className={`w-full p-2 bg-[hsla(0,0%,100%,0.752)] sm:col-span-2 rounded-md form-input-drop-shadow flex items-center gap-2 ${errors.privacyCheck && "border-2 border-red-500"}`}>
-              <input type="checkbox"   {...register("privacyCheck")} className="size-5" />
+            <span
+              className={`w-full p-2 bg-[hsla(0,0%,100%,0.752)] sm:col-span-2 rounded-md form-input-drop-shadow flex items-center gap-2 ${
+                errors.privacyCheck && "border-2 border-red-500"
+              }`}
+            >
+              <input
+                type="checkbox"
+                {...register("privacyCheck")}
+                className="size-5"
+              />
               <span className="text-base text-black text-left">
                 I have read and agreed to Thasmai Starlife's{" "}
-                <a href="/privacyPolicy" className="text-blue-600 underline" target="_blank">
+                <a
+                  href="/privacyPolicy"
+                  className="text-blue-600 underline"
+                  target="_blank"
+                >
                   Privacy Policy
                 </a>
               </span>
@@ -409,45 +501,41 @@ function RegistrationPage() {
           <Footer />
         </form>
 
-        {
-          isConfirmationOpen && 
-          <ConfirmationPopUp 
-            completeData={completeData} 
+        {isConfirmationOpen && (
+          <ConfirmationPopUp
+            completeData={completeData}
             setIsConfirmationOpen={setIsConfirmationOpen}
             setIsUserStatusOpen={setIsUserStatusOpen}
-            setIsOtpOpen={setIsOtpOpen} 
+            setIsOtpOpen={setIsOtpOpen}
             setUserStatusErrorMessage={setUserStatusErrorMessage}
           />
-        }
-        {
-          isUserStatusOpen && 
-          <UserStatusPopUp 
+        )}
+        {isUserStatusOpen && (
+          <UserStatusPopUp
             userStatusErrorMessage={userStatusErrorMessage}
             setIsConfirmationOpen={setIsConfirmationOpen}
             setIsUserStatusOpen={setIsUserStatusOpen}
           />
-        }
-        {
-          isOtpOpen && 
-          <OtpPopUp 
-            completeData={completeData} 
+        )}
+        {isOtpOpen && (
+          <OtpPopUp
+            completeData={completeData}
             setIsConfirmationOpen={setIsConfirmationOpen}
             setIsOtpOpen={setIsOtpOpen}
-            setIsSuccessCardOpen={setIsSuccessCardOpen} 
+            setIsSuccessCardOpen={setIsSuccessCardOpen}
             setSuccessPageData={setSuccessPageData}
+            setSuccess={setSuccess}
           />
-        }
-        {
-          isSuccessCardOpen && 
-          <SuccessCard 
+        )}
+        {isSuccessCardOpen && (
+          <SuccessCard
             successPageData={successPageData}
             userEmailToSend={userEmailToSend}
             setIsConfirmationOpen={setIsConfirmationOpen}
             setIsOtpOpen={setIsOtpOpen}
-            setIsSuccessCardOpen={setIsSuccessCardOpen} 
+            setIsSuccessCardOpen={setIsSuccessCardOpen}
           />
-        }
-        
+        )}
       </div>
     </div>
   );

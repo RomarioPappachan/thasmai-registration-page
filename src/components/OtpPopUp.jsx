@@ -15,6 +15,8 @@ function OtpPopUp(props) {
   const [isResendButtonEnabled, setIsResendButtonEnabled] = useState(false);
   const [otpErrorMessage, setOtpErrorMessage] = useState("");
 
+  const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
+
   const inputRefs = Array.from({ length: 4 }, () => useRef(null));
 
  
@@ -80,6 +82,7 @@ function OtpPopUp(props) {
   };
  
   const handleSubmitOtp = async () => {
+    setIsButtonsDisabled(true);
 
     let fullotp = inputRefs.map((input) => input.current.value).join("");
     // console.log(fullotp, props.completeData, "..............", fullotp);
@@ -111,9 +114,11 @@ function OtpPopUp(props) {
           const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verify_otp`, otpIncludedData);
           if(response.data.message) {
             console.log(response);
+            props.setSuccess(true);
             props.setSuccessPageData(response.data.data);
             // localStorage.setItem("regUserDetails", response.data.data);
             props.setIsSuccessCardOpen(true);
+            setIsButtonsDisabled(false);
           }
           props.setIsOtpOpen(false);
 
@@ -122,11 +127,13 @@ function OtpPopUp(props) {
           inputRefs.forEach((input) => input.current.value = "");
           setOtpErrorMessage("Invalid OTP");
           setIsInvalidOtp(true);
+          setIsButtonsDisabled(false);
         }
       }
     } else {
       setOtpErrorMessage("Please enter the OTP");
       setIsInvalidOtp(true);
+      setIsButtonsDisabled(false);
     }
     
 
@@ -195,6 +202,7 @@ function OtpPopUp(props) {
                 <button 
                   className='w-20 sm:w-24 py-2 text-black font-semibold text-xs sm:text-sm bg-gradient-to-b from-[#fff] to-[#cdc9c9] hover:to-[#cdc9c977] rounded-xl popup-button-shadow'
                   onClick={handleSubmitOtp}
+                  disabled={isButtonsDisabled}
                 >
                   Submit
                 </button>

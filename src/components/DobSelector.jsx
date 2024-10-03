@@ -151,8 +151,8 @@ export default function DobSelector({ handleDateOfBirth }) {
           backgroundColor: 'white', // White background
           borderRadius: '0.5rem', // Rounded corners
           '& .MuiInputLabel-root': {
-            color: 'black',
-            fontWeight: 600,
+            color: '#9CA3AF',
+            fontWeight: 400,
             fontSize: '1rem',
             fontFamily: 'Poppins'
           },
