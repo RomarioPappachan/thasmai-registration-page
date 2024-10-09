@@ -124,7 +124,7 @@ function RegistrationPage() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const {
       firstName,
       secondName,
@@ -149,7 +149,7 @@ function RegistrationPage() {
       ...nonValidatedData,
       ref_id: referralId,
     };
-    console.log(mergedData);
+    // console.log(mergedData);
 
     setCompleteData(mergedData); //Merged data
 
@@ -163,7 +163,7 @@ function RegistrationPage() {
       let refId = window.localStorage.getItem("refferalId");
       setSelectedLanguage(localStorage.getItem("selectedLanguage"));
       setReferralId(refId);
-      console.log("Referral Id", refId, selectedLanguage);
+      // console.log("Referral Id", refId, selectedLanguage);
     } catch (error) {
       console.log(error);
     }
@@ -175,7 +175,7 @@ function RegistrationPage() {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/user/countrieslist`
         );
-        console.log(response.data, "res");
+        // console.log(response.data, "res");
         setCountries(response.data);
 
         // Set default country details
@@ -291,7 +291,7 @@ function RegistrationPage() {
               </div>
               <div className="w-1/4 flex">
                 <div className="w-1/2 flex flex-col justify-center items-center gap-y-1">
-                  <img src="/web-test/male.png" alt="" className="w-8" />
+                  <img src="/male.png" alt="" className="w-8" />
                   <input
                     type="radio"
                     name="gender"
@@ -300,7 +300,7 @@ function RegistrationPage() {
                   />
                 </div>
                 <div className="w-1/2 flex flex-col justify-center items-center gap-y-1">
-                  <img src="/web-test/female.png" alt="" className="w-8" />
+                  <img src="/female.png" alt="" className="w-8" />
                   <input
                     type="radio"
                     name="gender"
@@ -370,7 +370,7 @@ function RegistrationPage() {
             </div>
             <div className="h-12 relative rounded-lg bg-white form-input-drop-shadow flex justify-around items-center gap-1">
               <div className="h-full flex justify-center items-center">
-                <img src="/web-test/magnifier.svg" alt="" className="size-6" />
+                <img src="/magnifier.svg" alt="" className="size-6" />
               </div>
               <div className="h-full text-sm font-semibold flex flex-col items-center justify-center gap-y-1">
                 Social media

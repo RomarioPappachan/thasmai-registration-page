@@ -107,13 +107,13 @@ function OtpPopUp(props) {
         ref_id: ref_id ? ref_id : 0
       }
     
-      console.log(otpIncludedData);
+      // console.log(otpIncludedData);
 
       if(otpIncludedData) {
         try {
           const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verify_otp`, otpIncludedData);
           if(response.data.message) {
-            console.log(response);
+            // console.log(response);
             props.setSuccess(true);
             props.setSuccessPageData(response.data.data);
             // localStorage.setItem("regUserDetails", response.data.data);
@@ -123,7 +123,7 @@ function OtpPopUp(props) {
           props.setIsOtpOpen(false);
 
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           inputRefs.forEach((input) => input.current.value = "");
           setOtpErrorMessage("Invalid OTP");
           setIsInvalidOtp(true);

@@ -23,7 +23,7 @@ function Footer() {
     const fetchData = async () => {
       try {
         const response1 = await axios.get(`${import.meta.env.VITE_BASE_URL}/superadmin/this-month`);
-        console.log(response1 , "response1");
+        // console.log(response1 , "response1");
         setNewJoineesCount(response1.data.count);
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ function Footer() {
     const fetchData = async () => {
       try {
         const response2 = await axios.get(`${import.meta.env.VITE_BASE_URL}/superadmin/beneficiaries`);
-      console.log(response2, "response2");
+      // console.log(response2, "response2");
       setBeneficiariesCount(response2.data.list);
       } catch (error) {
         console.log(error);
@@ -51,7 +51,7 @@ function Footer() {
     const fetchData = async () => {
       try {
         const response3 = await axios.get(`${import.meta.env.VITE_BASE_URL}/superadmin/meditation`);
-        console.log(response3, "response3");
+        // console.log(response3, "response3");
         setTotalMeditatorsCount(response3.data.result);
       } catch (error) {
         console.log(error); 
@@ -64,7 +64,7 @@ function Footer() {
     const fetchData = async () => {
       try {
         const response4 = await axios.get(`${import.meta.env.VITE_BASE_URL}/superadmin/waiting-list`);
-        console.log(response4.data.list, "response4");
+        // console.log(response4.data.list, "response4");
         setWaitingListCount(response4.data.list);
       } catch (error) {
         console.log(error); 
@@ -78,22 +78,22 @@ function Footer() {
     
     <div className="w-full grid grid-cols-4 px-2 md:px-10 lg:px-20 py-6 gap-4 text-center">
     <div className="flex flex-col justify-center items-center">
-      <img src="/web-test/total-meditators.svg" alt="Total" className='w-10' title='Total Meditators' />
+      <img src="/total-meditators.svg" alt="Total" className='w-10' title='Total Meditators' />
       <p className='font-bold text-base' title='Total Meditators'>{ totalmeditatorscount }</p>
       {/* <p>Total</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/web-test/waiting-list.svg" alt="Total" className='w-10' title='Waiting List'/>
+      <img src="/waiting-list.svg" alt="Total" className='w-10' title='Waiting List'/>
       <p className='font-bold text-base' title='Waiting List'>{ waitinglistcount }</p>
       {/* <p>Waiting</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/web-test/beneficiaries.svg" alt="Total" className='w-10' title='Beneficiaries' />
+      <img src="/beneficiaries.svg" alt="Total" className='w-10' title='Beneficiaries' />
       <p className='font-bold text-base' title='Beneficiaries'>{ beneficiariescount }</p>
       {/* <p>Beneficiaries</p> */}
     </div>
     <div className="flex flex-col justify-center items-center">
-      <img src="/web-test/new-joinees.svg" alt="Total" className='w-10' title='New Joinees' />
+      <img src="/new-joinees.svg" alt="Total" className='w-10' title='New Joinees' />
       <p className='font-bold text-base' title='New Joinees'>{ newjoineescount }</p>
       {/* <p>New</p> */}
     </div>

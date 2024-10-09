@@ -83,7 +83,7 @@ const AudioPlay = (props) => {
     try {
       
       setSelectedLanguage(localStorage.getItem("selectedLanguage"));
-      console.log("Referral Id", selectedLanguage);
+      // console.log("Referral Id", selectedLanguage);
       
     } catch (error) {
       console.log(error);

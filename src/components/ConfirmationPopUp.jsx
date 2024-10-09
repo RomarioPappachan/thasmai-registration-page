@@ -32,7 +32,7 @@ function ConfirmationPopUp({ completeData, setIsConfirmationOpen, setIsUserStatu
       }
 
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if(error.response.data) {
         setIsOtpOpen(false); 
         setUserStatusErrorMessage({

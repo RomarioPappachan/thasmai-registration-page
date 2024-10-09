@@ -4,16 +4,16 @@ import React, {useState, useEffect} from "react";
 
 
 function SuccessCard(props) {
-  console.log(props.successPageData, "Line 4");
+  // console.log(props.successPageData, "Line 4");
   
   const data = props.successPageData;
-  console.log(data);
+  // console.log(data);
   
 
   const [expiry, setExpiry] = useState({})
  
  
-  console.log(data.DOJ.split('T')[0]);
+  // console.log(data.DOJ.split('T')[0]);
 
   const joinDate = data.DOJ.split('T')[0];
   const dateOfJoining = joinDate.split('-');
@@ -23,7 +23,7 @@ function SuccessCard(props) {
 
   const doj = dayOfJoining + "/" + monthOfJoining + "/" + yearOfJoining;
 
-  console.log(doj);
+  // console.log(doj);
   
 
   const expDate = data.expiredDate.split('T')[0];
@@ -33,14 +33,14 @@ function SuccessCard(props) {
   const dayOfExpiry = dateOfExpiry[2];
 
   const expiryDate = dayOfExpiry + "/" + monthOfExpiry + "/" + yearOfExpiry;
-  console.log(expiryDate);
+  // console.log(expiryDate);
 
 
 
 
 
 useEffect(()=>{
-  console.log("card expiry", expiryDate);
+  // console.log("card expiry", expiryDate);
   axios.post(`${import.meta.env.VITE_BASE_URL}/user/send-email`,{
       first_name : data.first_name,
       last_name : data.last_name,
@@ -75,7 +75,7 @@ useEffect(()=>{
       {/* Success Card Section */}
       <div
         className="bg-cover bg-no-repeat bg-center h-[240px] sm:h-[280px] w-[95%] sm:w-[500px] mx-auto text-white rounded-3xl"
-        style={{ backgroundImage: "url('/web-test/success-card-bg2.png')" }}
+        style={{ backgroundImage: "url('/success-card-bg2.png')" }}
       >
         <div
           className="w-full h-full p-2 rounded-3xl"
@@ -90,20 +90,20 @@ useEffect(()=>{
               <p className="text-[10px] sm:text-xs">Card Number</p>
               <h1 className="text-base sm:text-lg font-bold">TSL{ data.UId }</h1>
             </div>
-            <img className="size-8 sm:size-12" src="/web-test/thasmai-logo.ico" alt="Thasmai logo" />
+            <img className="size-8 sm:size-12" src="/thasmai-logo.ico" alt="Thasmai logo" />
           </div>
 
           {/* Content */}
           <div className="flex justify-center items-center relative">
             <img
               className="w-8 sm:w-12 absolute top-1/4 left-5"
-              src="/web-test/chip.png"
+              src="/chip.png"
               alt="Chip"
             />
             <div className="relative flex flex-col justify-center items-center">
               <img
                 className="w-32 sm:w-44 mb-2 absolute -top-1/2 sm:-top-3/4"
-                src="/web-test/thasmai-starlife.svg"
+                src="/thasmai-starlife.svg"
                 alt="Star Life"
               />
               <p className="h-6"></p>
@@ -113,7 +113,7 @@ useEffect(()=>{
               <p className="text-[10px] sm:text-xs font-bold text-black">Contact: +91 9008290027</p>
               <a 
                 className="w-14 sm:w-20 text-sm sm:text-base text-center bg-[#000000bd] text-white rounded-sm border-2 border-[#ffffff50]"
-                href="/web-test/registrationSuccess"
+                href="/registrationSuccess"
                 onClick={() => {
                   props.setIsSuccessCardOpen(false);
                 }}
