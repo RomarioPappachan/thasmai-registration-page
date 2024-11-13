@@ -145,7 +145,7 @@ function RegistrationPage() {
       phone: phone,
       languages: selectedLanguages, // store in an array
       country: selectedCountryName,
-      // country_code : selectedCountryPhonecode,
+      country_code: selectedCountryPhonecode,
       ...nonValidatedData,
       ref_id: referralId,
     };
@@ -421,17 +421,38 @@ function RegistrationPage() {
                 })}
                 className={`w-full h-full bg-white text-lg font-normal rounded-lg px-4 outline-none 
                     ${isSelectTagSelected ? "text-black" : "text-gray-400"} 
-                    ${errors.selectedLanguages ? "border-2 border-red-500" : ""}`}
+                    ${
+                      errors.selectedLanguages ? "border-2 border-red-500" : ""
+                    }`}
               >
-                <option value="" selected disabled className={`${isSelectTagSelected ? 'text-black' : 'text-gray-400'}`}>
+                <option
+                  value=""
+                  selected
+                  disabled
+                  className={`${
+                    isSelectTagSelected ? "text-black" : "text-gray-400"
+                  }`}
+                >
                   Preferred Language for online zoom class
                 </option>
-                <option className="text-black" value="English">English</option>
-                <option className="text-black" value="Hindi">Hindi</option>
-                <option className="text-black" value="Kannada">Kannada</option>
-                <option className="text-black" value="Malayalam">Malayalam</option>
-                <option className="text-black" value="Tamil">Tamil</option>
-                <option className="text-black" value="Telugu">Telugu</option>
+                <option className="text-black" value="English">
+                  English
+                </option>
+                <option className="text-black" value="Hindi">
+                  Hindi
+                </option>
+                <option className="text-black" value="Kannada">
+                  Kannada
+                </option>
+                <option className="text-black" value="Malayalam">
+                  Malayalam
+                </option>
+                <option className="text-black" value="Tamil">
+                  Tamil
+                </option>
+                <option className="text-black" value="Telugu">
+                  Telugu
+                </option>
               </select>
               <span className="absolute top-2 left-2 text-lg text-[#BA1A1A] font-bold">
                 *
